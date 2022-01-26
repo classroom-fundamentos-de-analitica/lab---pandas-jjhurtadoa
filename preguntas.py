@@ -206,7 +206,16 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+    def mostrar(lista):
+        str1 = ""
+        for el in lista:
+            str1 += ","+el
+        return str1[1:]
+
+    df = tbl1.groupby('_c0').agg({'_c4': lambda x: sorted(list(x))})
+    df._c4 = df['_c4'].apply(mostrar)
+    df = df.reset_index()
+    return df
 
 
 def pregunta_12():
@@ -224,7 +233,16 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    def mostrar(lista):
+        str1 = ""
+        for el in lista:
+            str1 += ","+el
+        return str1[1:]
+    tbl2['_c5'] = tbl2['_c5a'] + ':' + tbl2['_c5b'].astype(str)
+    df = tbl2.groupby('_c0').agg({'_c5': lambda x: sorted(list(x))})
+    df._c5 = df['_c5'].apply(mostrar)
+    df = df.reset_index()
+    return df
 
 
 def pregunta_13():
@@ -241,4 +259,6 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    return
+    df= pd.merge(tbl0, tbl2, how="outer")
+    return df.groupby('_c1')['_c5b'].sum()
+
